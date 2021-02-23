@@ -6,6 +6,20 @@ export function ExperienceBar(){
 
     const experiencePercent = ()=>currentExperience*100+'%'
 
+    function gainExperience(amount: number = 0.1){
+
+        let newExp = 0;
+
+        if ( Math.abs(amount) < 1 ){
+            newExp = (currentExperience + amount)
+        } else {
+            newExp = (currentExperience + amount/(maxExp-minExp))
+        }
+
+        newExp = newExp>1? 1: newExp = newExp<0? 0:newExp
+
+        setExperience(newExp);
+    }
 
     return(
         <div>
@@ -25,6 +39,25 @@ export function ExperienceBar(){
                 <span>600 xp</span>
             
             </header>
+            <br />
+            
+            {/* remover, usado para teste*/}
+            <button style={{
+                padding: "0.5rem",
+                margin: "0.3rem",
+                backgroundColor: "var(--text-highlight)",
+                borderRadius: "50px",
+                border: 0
+            }} onClick={()=>{gainExperience(-50)}}>- exp</button>
+            
+            <button style={{
+                padding: "0.5rem",
+                margin: "0.3rem",
+                backgroundColor: "var(--text-highlight)",
+                borderRadius: "50px",
+                border: 0
+            }} onClick={()=>gainExperience(50)}>+ exp</button>
         </div>
+        
     )
 }
