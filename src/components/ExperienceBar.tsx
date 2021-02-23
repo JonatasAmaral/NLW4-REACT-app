@@ -3,6 +3,9 @@ import {useState} from 'react';
 export function ExperienceBar(){
     const [currentExperience, setExperience] = useState(0.4);
     const [minExp, maxExp] = [0, 600];
+    
+    const [barWidth, setBarWidth] = useState(0)
+    const [expValueWidth, setExpValueWidth] = useState(0)
 
     const experiencePercent = ()=>currentExperience*100+'%'
 
@@ -20,17 +23,44 @@ export function ExperienceBar(){
 
         setExperience(newExp);
     }
+    function expAnchorPos(){
+
+        let expBarWidthCalc = currentExperience*barWidth
+
+        if (
+            expBarWidthCalc < expValueWidth/2
+            ||
+            (barWidth - expBarWidthCalc) < expValueWidth/2
+        ){
+            //  deslocamento de ancora fluido (0->100). Movimentos menores, movimento mais agravel em espaço pequeno, 'vai e vem' em espaços médios
+            // return '-'+experiencePercent();
+            // deslocamento de ancora 'compassado' (0,50,100). Transições geralmente mais bruscas, comportamento mais adequado em grande espaço
+            return currentExperience>0.5? '-100%':'0%'
+        }
+
+        return '-50%'
+    }
 
     return(
         <div>
             <header className="experience-bar">
                 <span>0 xp</span>
-                <div>
+                <div
+                    ref={el => {
+                        if (!el) return
+                        setBarWidth(el.getBoundingClientRect().width)
+                    }}
+                >
                     <div className="current-experience-bar" style={{width: experiencePercent()}}/>
                     <span
                         className="current-experience-value"
                         style={{
-                            left: experiencePercent()
+                            left: experiencePercent(),
+                            transform: `translateX(${expAnchorPos()})`
+                        }}
+                        ref={el => {
+                            if (!el) return
+                            setExpValueWidth(el.getBoundingClientRect().width)
                         }}
                     >
                         {Math.floor((maxExp-minExp)*currentExperience)} xp
