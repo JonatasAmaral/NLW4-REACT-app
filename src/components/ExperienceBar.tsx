@@ -40,6 +40,17 @@ export function ExperienceBar(){
 
         return '-50%'
     }
+    function expPoint(){
+        
+        let expBarWidthCalc = currentExperience*barWidth
+
+        // tamanhos harcoded do global.css (pois o ponto tem tamanho fixo)
+        if (expBarWidthCalc < 3) return `3px`
+        if ((barWidth-expBarWidthCalc) < 3) return `calc(100% - 3px)`
+
+        
+        return experiencePercent()
+    }
 
     return(
         <div>
@@ -52,6 +63,7 @@ export function ExperienceBar(){
                     }}
                 >
                     <div className="current-experience-bar" style={{width: experiencePercent()}}/>
+                    <span className="current-experience-point" style={{left: expPoint()}}></span>
                     <span
                         className="current-experience-value"
                         style={{
