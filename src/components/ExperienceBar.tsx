@@ -2,7 +2,9 @@ import {useState} from 'react';
 
 export function ExperienceBar(){
     const [currentExperience, setExperience] = useState(0.4);
+    const [gotTarget, setGotTarget] = useState(false);
     const [minExp, maxExp] = [0, 600];
+    
     
     const [barWidth, setBarWidth] = useState(0)
     const [expValueWidth, setExpValueWidth] = useState(0)
@@ -10,6 +12,9 @@ export function ExperienceBar(){
     const experiencePercent = ()=>currentExperience*100+'%'
 
     function gainExperience(amount: number = 0.1){
+
+        if (amount>0 && currentExperience === 1) return
+        if (amount<0) setGotTarget(false);
 
         let newExp = 0;
 
@@ -22,6 +27,11 @@ export function ExperienceBar(){
         newExp = newExp>1? 1: newExp = newExp<0? 0:newExp
 
         setExperience(newExp);
+
+        setTimeout(()=>{
+            setGotTarget(newExp === 1);
+            // alert('Parabéns, você atingiu a meta!');
+        }, 500)
     }
     function expAnchorPos(){
 
@@ -99,6 +109,17 @@ export function ExperienceBar(){
                 borderRadius: "50px",
                 border: 0
             }} onClick={()=>gainExperience(50)}>+ exp</button>
+            <br />
+            <br />
+            <h2 style={{
+                // opacity: gotTarget? 1 : 0.0,
+                // display: gotTarget? 'default' : 'none',
+                visibility: gotTarget? 'visible' : 'hidden',
+                textAlign: "center",
+                color: "var(--green)"
+            }}>
+                Parabéns, você atingiu a meta!
+            </h2>
         </div>
         
     )
