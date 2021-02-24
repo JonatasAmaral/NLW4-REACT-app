@@ -8,6 +8,12 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <ExperienceBar />
+      
+      <section>
+        <div className={styles.mainAppContainer}>
+          <Profile />
+        </div>
+      </section>
     </div>
   )
 }
