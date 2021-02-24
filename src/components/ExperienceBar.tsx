@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import styles from '../styles/components/ExperienceBar.module.css';
 
 export function ExperienceBar(){
     const [currentExperience, setExperience] = useState(0.4);
@@ -64,7 +65,7 @@ export function ExperienceBar(){
 
     return(
         <div>
-            <header className="experience-bar">
+            <header className={styles.experienceBar}>
                 <span>0 xp</span>
                 <div
                     ref={el => {
@@ -72,10 +73,10 @@ export function ExperienceBar(){
                         setBarWidth(el.getBoundingClientRect().width)
                     }}
                 >
-                    <div className="current-experience-bar" style={{width: experiencePercent()}}/>
-                    <span className="current-experience-point" style={{left: expPoint()}}></span>
+                    <div className={styles.currentExperienceBar} style={{width: experiencePercent()}}/>
+                    <span className={styles.currentExperiencePoint} style={{left: expPoint()}}></span>
                     <span
-                        className="current-experience-value"
+                        className={styles.currentExperienceValue}
                         style={{
                             left: experiencePercent(),
                             transform: `translateX(${expAnchorPos()})`

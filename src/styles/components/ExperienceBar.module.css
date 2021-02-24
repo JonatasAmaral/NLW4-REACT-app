@@ -1,0 +1,58 @@
+
+.experienceBar{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.experienceBar span{
+    font-size: 1rem;
+}
+
+.experienceBar > div{
+    flex: 1;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--gray-line);
+    margin: 0 1.5rem;
+    position: relative;
+    /* overflow: hidden; */
+}
+
+.experienceBar .currentExperienceBar{
+    position: absolute;
+    height: 100%;
+    background: var(--green);
+    border-radius: 4px;
+    transition: width .3s ease-in;
+
+}
+
+.experienceBar .currentExperienceValue{
+    position: absolute;
+    top: 12px;
+    left: 85%;
+    transition: left .3s ease-in, transform .3s ease-in;
+    transform: translateX(-50%);
+    color: var(--green);
+    white-space: nowrap;
+}
+
+.experienceBar .currentExperiencePoint{
+    display: block;
+    position: absolute;
+    /* opacity: 0.4; */
+    transform: translate(-50%,calc(-50% + 2px));
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 16px;
+    left: 50%;
+    transition: transform 250ms ease-in, left .3s ease-in, border 500ms;
+}
+
+.experienceBar:hover .currentExperiencePoint{
+    transform: translate(-50%,calc(-50% + 2px)) scale(2);
+    border: 1px var(--green) solid;
+    background: var(-Background);
+}
