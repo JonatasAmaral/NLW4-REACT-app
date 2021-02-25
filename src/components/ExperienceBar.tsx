@@ -92,35 +92,8 @@ export function ExperienceBar(){
                 <span>600 xp</span>
             
             </header>
-            <br />
             
-            {/* remover, usado para teste*/}
-            <button style={{
-                padding: "0.5rem",
-                margin: "0.3rem",
-                backgroundColor: "var(--text-highlight)",
-                borderRadius: "50px",
-                border: 0
-            }} onClick={()=>{gainExperience(-50)}}>- exp</button>
             
-            <button style={{
-                padding: "0.5rem",
-                margin: "0.3rem",
-                backgroundColor: "var(--text-highlight)",
-                borderRadius: "50px",
-                border: 0
-            }} onClick={()=>gainExperience(50)}>+ exp</button>
-            <br />
-            <br />
-            <h2 style={{
-                // opacity: gotTarget? 1 : 0.0,
-                // display: gotTarget? 'default' : 'none',
-                visibility: gotTarget? 'visible' : 'hidden',
-                textAlign: "center",
-                color: "var(--green)"
-            }}>
-                Parabéns, você atingiu a meta!
-            </h2>
         </div>
         
     )
