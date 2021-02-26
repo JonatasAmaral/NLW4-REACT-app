@@ -3,15 +3,20 @@ import { ChallengesContext } from '../contexts/ChallengesContext';
 import styles from '../styles/components/ChallengeBox.module.css';
 
 export function ChallengeBox(){
-    const hasActiveChallenge = true;
-    const levelContext = useContext(ChallengesContext)    
+    const levelContext = useContext(ChallengesContext)
+    const {
+        currentExperience, gainExperience,
+        completedOneChallenge, failedOneChallenge, hasActiveChallenge
+    } = levelContext
+    const experiencePointsToGain = 400;
+
 
     return(
         <div className={styles.challengeBoxContainer}>
 
             { hasActiveChallenge? (
                 <div className={styles.challengeActive}>
-                    <header>Ganhe 400 xp</header>
+                    <header>Ganhe {experiencePointsToGain} xp</header>
                     
                     <main>
                         <img src="icons/body.svg"/>
@@ -26,14 +31,14 @@ export function ChallengeBox(){
                         <button
                             type='button'
                             className={styles.challengeFailedButton}
-                            onClick={null}
+                            onClick={()=>failedOneChallenge(experiencePointsToGain)}
                         >
                             Falhei
                         </button>
                         <button
                             type='button'
                             className={styles.challengeSucceededButton}
-                            onClick={null}
+                            onClick={()=>completedOneChallenge(experiencePointsToGain)}
                         >
                             Completei
                         </button>

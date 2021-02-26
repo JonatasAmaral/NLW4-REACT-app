@@ -1,39 +1,19 @@
-import {useState} from 'react';
+import {useContext, useState} from 'react';
+import { ChallengesContext } from '../contexts/ChallengesContext';
 import styles from '../styles/components/ExperienceBar.module.css';
 
-export function ExperienceBar(){
-    const [currentExperience, setExperience] = useState(0.4);
+export function ExperienceBar(){    
+    const {
+        currentExperience, setCurrentExperience,
+        experienceActualLevel, experienceToNextLevel
+    } = useContext(ChallengesContext);
+    
     const [gotTarget, setGotTarget] = useState(false);
-    const [minExp, maxExp] = [0, 600];
-    
-    
     const [barWidth, setBarWidth] = useState(0)
     const [expValueWidth, setExpValueWidth] = useState(0)
 
     const experiencePercent = ()=>currentExperience*100+'%'
 
-    function gainExperience(amount: number = 0.1){
-
-        if (amount>0 && currentExperience === 1) return
-        if (amount<0) setGotTarget(false);
-
-        let newExp = 0;
-
-        if ( Math.abs(amount) < 1 ){
-            newExp = (currentExperience + amount)
-        } else {
-            newExp = (currentExperience + amount/(maxExp-minExp))
-        }
-
-        newExp = newExp>1? 1: newExp = newExp<0? 0:newExp
-
-        setExperience(newExp);
-
-        setTimeout(()=>{
-            setGotTarget(newExp === 1);
-            // alert('Parabéns, você atingiu a meta!');
-        }, 500)
-    }
     function expAnchorPos(){
 
         let expBarWidthCalc = currentExperience*barWidth
@@ -66,7 +46,7 @@ export function ExperienceBar(){
     return(
         <div>
             <header className={styles.experienceBar}>
-                <span>0 xp</span>
+                <span>{experienceActualLevel} xp</span>
                 <div
                     ref={el => {
                         if (!el) return
@@ -86,10 +66,12 @@ export function ExperienceBar(){
                             setExpValueWidth(el.getBoundingClientRect().width)
                         }}
                     >
-                        {Math.floor((maxExp-minExp)*currentExperience)} xp
+                        {Math.floor((experienceToNextLevel-experienceActualLevel)*currentExperience)} xp
+                        {console.log(experienceActualLevel)}
+                        
                     </span>
                 </div>
-                <span>600 xp</span>
+                <span>{experienceToNextLevel} xp</span>
             
             </header>
             

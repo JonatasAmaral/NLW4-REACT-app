@@ -1,12 +1,16 @@
 import { clear } from 'console';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ChallengesContext } from '../contexts/ChallengesContext';
 import styles from '../styles/components/Countdown.module.css';
 
 export function Countdown(){
     const initTime = 3 || 25*60;
     const [time, setTime] = useState(initTime);
     const [isActive, setIsActive] = useState(false);
-    const [hasfinished, setHasFinished] = useState(false);
+    const [hasFinished, setHasFinished] = useState(false);
+
+    const {startNewChallenge} = useContext(ChallengesContext)
+
 
     const minutes = Math.floor(time/60);
     const seconds = time - minutes*60; // time % 60
@@ -44,8 +48,9 @@ export function Countdown(){
     }, [isActive, time])
 
     useEffect(()=>{
-
-    },[isActive, time])
+        if(hasFinished) startNewChallenge();
+        else null
+    },[hasFinished])
 
     return(
         <div>
@@ -62,7 +67,7 @@ export function Countdown(){
             </div>
 
             {/* equal to [ has? (val) : _null_ ] */}
-            {hasfinished ? (
+            {hasFinished ? (
                 <button 
                     className={`${styles.countdownButton}`}
                     disabled
