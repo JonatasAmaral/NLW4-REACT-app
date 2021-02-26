@@ -1,18 +1,19 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
+import { CountdownContext } from '../contexts/CountdownContext';
 import styles from '../styles/components/ChallengeBox.module.css';
 
 export function ChallengeBox(){
-    const levelContext = useContext(ChallengesContext)
     const {
-        currentExperience, gainExperience,
-        activeChallenge,
-        completedOneChallenge, resetChallenge, hasActiveChallenge
-    } = levelContext
+        activeChallenge, completeChallenge, resetChallenge,
+        
+        chalengeRef,
+    } =  useContext(ChallengesContext)
 
+    // const chalengeRef = useRef();
 
     return(
-        <div className={styles.challengeBoxContainer}>
+        <div className={styles.challengeBoxContainer} ref={chalengeRef}>
 
             { activeChallenge? (
                 <div className={styles.challengeActive}>
@@ -37,7 +38,7 @@ export function ChallengeBox(){
                         <button
                             type='button'
                             className={styles.challengeSucceededButton}
-                            onClick={()=>completedOneChallenge(activeChallenge.amount)}
+                            onClick={()=>completeChallenge(activeChallenge.amount)}
                         >
                             Completei
                         </button>

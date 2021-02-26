@@ -1,4 +1,4 @@
-import {createContext, useState, ReactNode} from 'react'
+import {createContext, useState, ReactNode, useRef} from 'react'
 import challenges from '../../challenges.json'
 
 interface Challenge {
@@ -12,11 +12,13 @@ interface ChallengesContextData{
     currentExperience: number;
     challengesCompleted: number;
     levelUp: ()=>void;
-    startNewChallenge: ()=> void;
+    startNewChallenge: ()=>void;
     activeChallenge: Challenge;
-    resetChallenge: ()=> void;
+    resetChallenge: ()=>void;
     experienceToNextLevel: number;
     percentToNextLevel: number;
+    completeChallenge: (xp)=>void;
+    chalengeRef: any;   
 }
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
@@ -34,6 +36,8 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     const experienceToNextLevel = Math.pow((level+1)*4,2);
     const percentToNextLevel = Math.round((currentExperience*100)/experienceToNextLevel)
 
+    const chalengeRef = useRef();
+
 
     function levelUp(exeed?:number) {
         setLevel(level + 1);
@@ -41,43 +45,36 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     }
 
     function gainExperience(amount: number = 0){
-        
-        if (amount>0 && currentExperience === 1) return
-        // if (amount<0) setGotTarget(false);
-        
-        let newExp = 0;
-        
-        if ( Math.abs(amount) < 1 ){
-            //newExp = (currentExperience + amount)// todo: refacor this percent inclease
+                
+        let newExperience = 0;
+        newExperience = (currentExperience + amount)
 
-        } else {
-        }
-        newExp = (currentExperience + amount)
-
-        if (newExp >= experienceToNextLevel ){
-            let exeed = newExp-experienceToNextLevel
+        if (newExperience >= experienceToNextLevel){
+            let exeed = newExperience-experienceToNextLevel
             setTimeout(()=>levelUp(exeed),1000)
+
+            newExperience = experienceToNextLevel; // stale exp bar a sec in max position, for user visual feedback
         }
-        newExp = newExp>experienceToNextLevel? experienceToNextLevel: newExp = newExp<0? 0:newExp
+        else newExperience = newExperience<0? 0:newExperience // for LOSE experience purpose, never lose LEVEL
         
-        setCurrentExperience(newExp);
-        
-        
-        /*
-         setTimeout(()=>{
-            setGotTarget(newExp === 1);
-            // alert('Parabéns, você atingiu a meta!');
-        }, 500) */
+        setCurrentExperience(newExperience);
     }
 
     function startNewChallenge(){
         const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
         setActiveChallenge(challenges[randomChallengeIndex]);
+        
+        // scroll page to the unlocked challenge on smalls screens. "Hardcoding"
+        // setTimeout(()=>document.getElementById("chalengeBoxElement").scrollIntoView(), 500)
+        // TODO: scroll page to challenge by exporting a React useRef.
+        // Works nicelly, but VS Code acuse error: "possibly undefined"
+        setTimeout(()=>{ chalengeRef.current.scrollIntoView({ behavior: 'smooth' }) }, 500)
     }
-    function completedOneChallenge(xp){
+    function completeChallenge(xp){
+        if (!activeChallenge) return;
+        resetChallenge();
         setChallengesCompleted(challengesCompleted+1);
         gainExperience(xp);
-        resetChallenge();
     }
     function resetChallenge(){
         setActiveChallenge(null);
@@ -87,12 +84,12 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     return (
         <ChallengesContext.Provider value={{
             level, levelUp,
-            currentExperience, gainExperience,
-            challengesCompleted, setChallengesCompleted,
+            currentExperience,
+            challengesCompleted,
             activeChallenge,
-            
+            chalengeRef,
             experienceToNextLevel, percentToNextLevel,
-            startNewChallenge, completedOneChallenge, resetChallenge
+            startNewChallenge, completeChallenge, resetChallenge
         }}>
             {children}
         </ChallengesContext.Provider>

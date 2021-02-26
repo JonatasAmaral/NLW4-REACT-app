@@ -5,7 +5,7 @@ import styles from '../styles/components/ExperienceBar.module.css';
 export function ExperienceBar(){    
     const {
         currentExperience,
-        experienceToNextLevel, percentToNextLevel, gainExperience
+        experienceToNextLevel, percentToNextLevel
     } = useContext(ChallengesContext);
 
     const [gotTarget, setGotTarget] = useState(false);
@@ -17,8 +17,6 @@ export function ExperienceBar(){
 
         let expBarWidthCalc = percentToNextLevel/100*barWidth
 
-        console.log({expBarWidthCalc, currentExperience, barWidth, percentToNextLevel, expValueWidth});
-        
 
         if (
             expBarWidthCalc < expValueWidth/2
@@ -46,7 +44,7 @@ export function ExperienceBar(){
 
     return(
         <div>
-            <header className={styles.experienceBar} onClick={()=>gainExperience(Math.floor(experienceToNextLevel*.1))}>
+            <header className={styles.experienceBar} >
                 <span>0 xp</span>
                 <div
                     ref={el => {
@@ -55,7 +53,7 @@ export function ExperienceBar(){
                     }}
                 >
                     <div className={styles.currentExperienceBar} style={{width: `${percentToNextLevel}%`}}/>
-                    <span className={styles.currentExperiencePoint} style={{left: expPoint(), opacity:'0.4'}}></span>
+                    <span className={styles.currentExperiencePoint} style={{left: expPoint()}}></span>
                     <span
                         className={styles.currentExperienceValue}
                         style={{
