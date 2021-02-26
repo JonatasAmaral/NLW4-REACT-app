@@ -13,7 +13,10 @@ export function ChallengeBox(){
                     <main>
                         <img src="icons/body.svg"/>
                         <strong>Novo desafio</strong>
-                        <p>Levanta e paga dez</p>
+                        <p>
+                            É isso ai, mandou bem<br />
+                            Agora caminhe por 3 minutos pra ficar saudável.
+                        </p>
                     </main>
                     
                     <footer>
