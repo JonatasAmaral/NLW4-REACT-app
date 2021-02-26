@@ -6,24 +6,23 @@ export function ChallengeBox(){
     const levelContext = useContext(ChallengesContext)
     const {
         currentExperience, gainExperience,
-        completedOneChallenge, failedOneChallenge, hasActiveChallenge
+        activeChallenge,
+        completedOneChallenge, resetChallenge, hasActiveChallenge
     } = levelContext
-    const experiencePointsToGain = 400;
 
 
     return(
         <div className={styles.challengeBoxContainer}>
 
-            { hasActiveChallenge? (
+            { activeChallenge? (
                 <div className={styles.challengeActive}>
-                    <header>Ganhe {experiencePointsToGain} xp</header>
+                    <header>Ganhe {activeChallenge.amount} xp</header>
                     
                     <main>
-                        <img src="icons/body.svg"/>
+                        <img src={`icons/${activeChallenge.type}.svg`}/>
                         <strong>Novo desafio</strong>
                         <p>
-                            É isso ai, mandou bem<br />
-                            Agora caminhe por 3 minutos pra ficar saudável.
+                           {activeChallenge.description}
                         </p>
                     </main>
                     
@@ -31,14 +30,14 @@ export function ChallengeBox(){
                         <button
                             type='button'
                             className={styles.challengeFailedButton}
-                            onClick={()=>failedOneChallenge(experiencePointsToGain)}
+                            onClick={resetChallenge}
                         >
                             Falhei
                         </button>
                         <button
                             type='button'
                             className={styles.challengeSucceededButton}
-                            onClick={()=>completedOneChallenge(experiencePointsToGain)}
+                            onClick={()=>completedOneChallenge(activeChallenge.amount)}
                         >
                             Completei
                         </button>

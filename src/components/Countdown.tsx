@@ -4,7 +4,7 @@ import { ChallengesContext } from '../contexts/ChallengesContext';
 import styles from '../styles/components/Countdown.module.css';
 
 export function Countdown(){
-    const initTime = 3 || 25*60;
+    const initTime = 1 || 25*60;
     const [time, setTime] = useState(initTime);
     const [isActive, setIsActive] = useState(false);
     const [hasFinished, setHasFinished] = useState(false);
@@ -44,13 +44,9 @@ export function Countdown(){
         } else if (isActive && time == 0){
             setHasFinished(true);
             setIsActive(false);
+            startNewChallenge();
         }
     }, [isActive, time])
-
-    useEffect(()=>{
-        if(hasFinished) startNewChallenge();
-        else null
-    },[hasFinished])
 
     return(
         <div>

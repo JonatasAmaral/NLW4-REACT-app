@@ -1,7 +1,24 @@
 import {createContext, useState, ReactNode} from 'react'
-import { render } from 'react-dom';
+import challenges from '../../challenges.json'
 
-export const ChallengesContext = createContext(null);
+interface Challenge {
+    type: 'body' | 'eye';
+    description: string;
+    amount: number;
+}
+
+interface ChallengesContextData{
+    level: number;
+    currentExperience: number;
+    challengesCompleted: number;
+    levelUp: ()=>void;
+    startNewChallenge: ()=> void;
+    activeChallenge: Challenge;
+    resetChallenge: ()=> void;
+    experienceToNextLevel: number;
+    percentToNextLevel: number;
+}
+export const ChallengesContext = createContext({} as ChallengesContextData);
 
 interface ChallengesProviderProps {
     children: ReactNode
@@ -11,16 +28,19 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     const [level, setLevel] = useState(1);
     const [currentExperience, setCurrentExperience] = useState(0);
     const [challengesCompleted, setChallengesCompleted] = useState(0);
-    const [hasActiveChallenge, setHasActiveChallenge] = useState(false);
-    let [experienceActualLevel, experienceToNextLevel] = [0, 600];
+
+    const [activeChallenge, setActiveChallenge] = useState(null);
+
+    const experienceToNextLevel = Math.pow((level+1)*4,2);
+    const percentToNextLevel = Math.round((currentExperience*100)/experienceToNextLevel)
 
 
-    function levelUp() {
+    function levelUp(exeed?:number) {
         setLevel(level + 1);
-        setCurrentExperience(0);
+        setCurrentExperience(exeed || 0);
     }
 
-    function gainExperience(amount: number = 0.1){
+    function gainExperience(amount: number = 0){
         
         if (amount>0 && currentExperience === 1) return
         // if (amount<0) setGotTarget(false);
@@ -28,34 +48,39 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         let newExp = 0;
         
         if ( Math.abs(amount) < 1 ){
-            newExp = (currentExperience + amount)            
+            //newExp = (currentExperience + amount)// todo: refacor this percent inclease
+
         } else {
-            newExp = (currentExperience + amount/(experienceToNextLevel-experienceActualLevel))
         }
-        
-        newExp = newExp>1? 1: newExp = newExp<0? 0:newExp
+        newExp = (currentExperience + amount)
+
+        if (newExp >= experienceToNextLevel ){
+            let exeed = newExp-experienceToNextLevel
+            setTimeout(()=>levelUp(exeed),1000)
+        }
+        newExp = newExp>experienceToNextLevel? experienceToNextLevel: newExp = newExp<0? 0:newExp
         
         setCurrentExperience(newExp);
         
-        if (newExp >= 1 ){
-            setTimeout(()=>levelUp(),500)
-        }
-        /* setTimeout(()=>{
+        
+        /*
+         setTimeout(()=>{
             setGotTarget(newExp === 1);
             // alert('Parabéns, você atingiu a meta!');
         }, 500) */
     }
 
     function startNewChallenge(){
-        setHasActiveChallenge(true);
+        const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
+        setActiveChallenge(challenges[randomChallengeIndex]);
     }
     function completedOneChallenge(xp){
         setChallengesCompleted(challengesCompleted+1);
         gainExperience(xp);
-        setHasActiveChallenge(false);
+        resetChallenge();
     }
-    function failedOneChallenge(x){
-        setHasActiveChallenge(false);
+    function resetChallenge(){
+        setActiveChallenge(null);
     }
     
 
@@ -64,10 +89,10 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
             level, levelUp,
             currentExperience, gainExperience,
             challengesCompleted, setChallengesCompleted,
-            hasActiveChallenge, setHasActiveChallenge,
+            activeChallenge,
             
-            experienceActualLevel, experienceToNextLevel,
-            startNewChallenge, completedOneChallenge, failedOneChallenge
+            experienceToNextLevel, percentToNextLevel,
+            startNewChallenge, completedOneChallenge, resetChallenge
         }}>
             {children}
         </ChallengesContext.Provider>

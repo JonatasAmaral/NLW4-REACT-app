@@ -4,19 +4,21 @@ import styles from '../styles/components/ExperienceBar.module.css';
 
 export function ExperienceBar(){    
     const {
-        currentExperience, setCurrentExperience,
-        experienceActualLevel, experienceToNextLevel
+        currentExperience,
+        experienceToNextLevel, percentToNextLevel, gainExperience
     } = useContext(ChallengesContext);
-    
+
     const [gotTarget, setGotTarget] = useState(false);
     const [barWidth, setBarWidth] = useState(0)
     const [expValueWidth, setExpValueWidth] = useState(0)
 
-    const experiencePercent = ()=>currentExperience*100+'%'
 
     function expAnchorPos(){
 
-        let expBarWidthCalc = currentExperience*barWidth
+        let expBarWidthCalc = percentToNextLevel/100*barWidth
+
+        console.log({expBarWidthCalc, currentExperience, barWidth, percentToNextLevel, expValueWidth});
+        
 
         if (
             expBarWidthCalc < expValueWidth/2
@@ -24,12 +26,11 @@ export function ExperienceBar(){
             (barWidth - expBarWidthCalc) < expValueWidth/2
         ){
             //  deslocamento de ancora fluido (0->100). Movimentos menores, movimento mais agravel em espaço pequeno, 'vai e vem' em espaços médios
-            // return '-'+experiencePercent();
+            // return '-'+percentToNextLevel+'%';
             // deslocamento de ancora 'compassado' (0,50,100). Transições geralmente mais bruscas, comportamento mais adequado em grande espaço
-            return currentExperience>0.5? '-100%':'0%'
+            return percentToNextLevel>50? '-100%':'0%'
         }
-
-        return '-50%'
+        else return '-50%'
     }
     function expPoint(){
         
@@ -37,28 +38,28 @@ export function ExperienceBar(){
 
         // tamanhos harcoded do global.css (pois o ponto tem tamanho fixo)
         if (expBarWidthCalc < 3) return `3px`
-        if ((barWidth-expBarWidthCalc) < 3) return `calc(100% - 3px)`
+        // if ((barWidth-expBarWidthCalc) < 3) return `calc(100% - 3px)`
 
         
-        return experiencePercent()
+        return `${percentToNextLevel}%`
     }
 
     return(
         <div>
-            <header className={styles.experienceBar}>
-                <span>{experienceActualLevel} xp</span>
+            <header className={styles.experienceBar} onClick={()=>gainExperience(Math.floor(experienceToNextLevel*.1))}>
+                <span>0 xp</span>
                 <div
                     ref={el => {
                         if (!el) return
                         setBarWidth(el.getBoundingClientRect().width)
                     }}
                 >
-                    <div className={styles.currentExperienceBar} style={{width: experiencePercent()}}/>
-                    <span className={styles.currentExperiencePoint} style={{left: expPoint()}}></span>
+                    <div className={styles.currentExperienceBar} style={{width: `${percentToNextLevel}%`}}/>
+                    <span className={styles.currentExperiencePoint} style={{left: expPoint(), opacity:'0.4'}}></span>
                     <span
                         className={styles.currentExperienceValue}
                         style={{
-                            left: experiencePercent(),
+                            left: `${percentToNextLevel}%`,
                             transform: `translateX(${expAnchorPos()})`
                         }}
                         ref={el => {
@@ -66,9 +67,7 @@ export function ExperienceBar(){
                             setExpValueWidth(el.getBoundingClientRect().width)
                         }}
                     >
-                        {Math.floor((experienceToNextLevel-experienceActualLevel)*currentExperience)} xp
-                        {console.log(experienceActualLevel)}
-                        
+                        {currentExperience} xp
                     </span>
                 </div>
                 <span>{experienceToNextLevel} xp</span>
