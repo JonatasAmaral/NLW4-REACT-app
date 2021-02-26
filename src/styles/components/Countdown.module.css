@@ -60,6 +60,7 @@
 
 .countdownButton span{
     margin-left: .75rem;
+    font-size: 1.25em;
 }
 .countdownButtonActive {
     background: var(--white);
@@ -77,8 +78,5 @@
     cursor: not-allowed;
 }
 .countdownButton[disabled] span {
-    background: var(--green);
-    color: white;
-    border-radius: 100px;
-    padding: 0px .25rem;
+    color: var(--green);
 }

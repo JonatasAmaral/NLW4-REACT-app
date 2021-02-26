@@ -69,7 +69,7 @@ export function Countdown(){
                     disabled
                 >   
                     {/* 😀✅✔🟢✔️✓ */}
-                    Ciclo encerrado <span>✓</span>
+                    Ciclo encerrado <span className="icon-">✓</span>
                 </button>
             ) : (
 
@@ -81,7 +81,7 @@ export function Countdown(){
                         onClick={resetCountdown}
                     >   
                         {/* ☓ ✗ ✖ */}
-                        Abandonar o ciclo <span>✖</span>
+                        Abandonar o ciclo <span className="icon-">✖</span>
                     </button>
                 ):(
                     <button 
@@ -89,7 +89,7 @@ export function Countdown(){
                         className={styles.countdownButton}
                         onClick={startCountdown}
                     >   
-                        Iniciar um ciclo <span>▶</span>
+                        Iniciar um ciclo <span className="icon-">▶</span>
                     </button>
                 )
             )}

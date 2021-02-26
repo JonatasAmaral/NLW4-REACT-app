@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'NLW4-ReactNextJS';
+  src:  url('../fonts/NLW4-ReactNextJS.eot?1ip6h6');
+  src:  url('../fonts/NLW4-ReactNextJS.eot?1ip6h6#iefix') format('embedded-opentype'),
+    url('../fonts/NLW4-ReactNextJS.ttf?1ip6h6') format('truetype'),
+    url('../fonts/NLW4-ReactNextJS.woff?1ip6h6') format('woff'),
+    url('../fonts/NLW4-ReactNextJS.svg?1ip6h6#NLW4-ReactNextJS') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'NLW4-ReactNextJS' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-play_arrow:before {
+  content: "\25b6";
+}
+.icon-clear:before {
+  content: "\2716";
+}
+.icon-arrow_upward:before {
+  content: "\2b06";
+}
+.icon-share:before {
+  content: "\e903";
+}
+.icon-check_circle:before {
+  content: "\2713";
+}
