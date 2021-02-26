@@ -53,6 +53,4 @@
 
 .experienceBar:hover .currentExperiencePoint{
     transform: translate(-50%,calc(-50% + 2px)) scale(2);
-    border: 1px var(--green) solid;
-    background: var(-Background);
 }
