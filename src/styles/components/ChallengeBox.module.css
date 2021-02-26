@@ -1,0 +1,42 @@
+.challengeBoxContainer {
+    background: var(--white);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    padding: 4rem;
+    padding: 1.5rem 2rem;
+    text-align: center;
+}
+.challengeNotActive {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    align-content: center;
+    justify-content: center;
+}
+
+.challengeNotActive strong {
+    /* flex: 1 0 100%; */
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 3rem;
+    text-align: center;
+
+}
+
+.challengeNotActive p {
+    display: flex;
+    max-width: 80%;
+    line-height: 1.5;
+
+    align-items: center;
+}
+.challengeNotActive img {
+    width: 2rem;
+    margin-right: 1rem;
+    flex-shrink: 1;
+}
