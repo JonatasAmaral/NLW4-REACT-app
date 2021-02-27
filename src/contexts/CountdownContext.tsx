@@ -19,10 +19,9 @@ interface CountdownProviderProps {
     children: ReactNode
 }
 
-
 export function CountdownProvider ( {children}:CountdownProviderProps ) {
     
-    const initTime = 3 || 25*60;
+    const initTime = 25*60;
     const [time, setTime] = useState(initTime);
     const [isActive, setIsActive] = useState(false);
     const [hasFinished, setHasFinished] = useState(false);

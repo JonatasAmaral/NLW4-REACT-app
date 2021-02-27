@@ -25,7 +25,7 @@ export function Countdown(){
 
     return(
         <div>
-            <div className={styles.countdownContainer} onClick={resetCountdown}>
+            <div className={styles.countdownContainer}>
                 <div>
                     <span>{digitsMinutes[0] || 0}</span>
                     <span>{digitsMinutes[1] || 0}</span>
