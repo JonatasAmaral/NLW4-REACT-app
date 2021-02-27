@@ -19,6 +19,7 @@ interface ChallengesContextData{
     percentToNextLevel: number;
     completeChallenge: (xp)=>void;
     chalengeRef: any;
+    countdownRef: any;
     askForNotify: ()=>void;
 }
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -36,8 +37,10 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
 
     const experienceToNextLevel = Math.pow((level+1)*4,2);
     const percentToNextLevel = Math.round((currentExperience*100)/experienceToNextLevel)
-
+    
     const chalengeRef = useRef<HTMLDivElement>();
+    const countdownRef = useRef<HTMLDivElement>();
+
     const [timesAskForNotify, setTimesAskForNotify] = useState(3)
 
 
@@ -102,6 +105,7 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     }
     function resetChallenge(){
         setActiveChallenge(null);
+        setTimeout(()=>{ countdownRef.current.scrollIntoView({ behavior: 'smooth' }) }, 50)
     }
     
     return (
@@ -110,7 +114,7 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
             currentExperience,
             challengesCompleted,
             activeChallenge,
-            chalengeRef,
+            chalengeRef, countdownRef,
             askForNotify,
             experienceToNextLevel, percentToNextLevel,
             startNewChallenge, completeChallenge, resetChallenge

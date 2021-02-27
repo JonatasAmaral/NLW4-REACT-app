@@ -10,7 +10,7 @@ export function Countdown(){
         startCountdown, resetCountdown
     } = useContext(CountdownContext)
 
-    const {activeChallenge} = useContext(ChallengesContext)
+    const {activeChallenge, countdownRef} = useContext(ChallengesContext)
 
     useEffect(() =>{
         if (activeChallenge) return;
@@ -23,7 +23,7 @@ export function Countdown(){
 
     return(
         <div>
-            <div className={styles.countdownContainer}>
+            <div className={styles.countdownContainer} id="countdownContainer" ref={countdownRef}>
                 <div>
                     <span>{digitsMinutes[0] || 0}</span>
                     <span>{digitsMinutes[1] || 0}</span>
