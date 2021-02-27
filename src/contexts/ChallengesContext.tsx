@@ -85,6 +85,9 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
 
         new Audio('/notification.mp3').play();
 
+        // notificar apenas se document.visibilityState === 'hidden' ( !'visible' )
+        if (document.visibilityState === "visible") return;
+        
         if(Notification.permission === 'granted'){
             new Notification(`Novo desafio ${challenge.type == 'body'? '🦾':'👀' } valendo ${challenge.amount}`, {
                 body: `${challenge.description}`,
@@ -105,7 +108,7 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     }
     function resetChallenge(){
         setActiveChallenge(null);
-        setTimeout(()=>{ countdownRef.current.scrollIntoView({ behavior: 'smooth' }) }, 50)
+        setTimeout(()=>{ countdownRef.current.scrollIntoView({ behavior: 'smooth' }) }, 200)
     }
     
     return (
