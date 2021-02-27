@@ -27,7 +27,7 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
     const [isActive, setIsActive] = useState(false);
     const [hasFinished, setHasFinished] = useState(false);
 
-    const {startNewChallenge} = useContext(ChallengesContext)
+    const {startNewChallenge, askForNotify} = useContext(ChallengesContext)
 
 
     const minutes = Math.floor(time/60);
@@ -39,6 +39,7 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
     function startCountdown(){
         clearTimeout(timeoutTrack);
         setIsActive(true);
+        askForNotify();
     }    
     function resetCountdown(){
         clearTimeout(timeoutTrack);

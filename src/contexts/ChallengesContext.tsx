@@ -1,4 +1,4 @@
-import {createContext, useState, ReactNode, useRef} from 'react'
+import {createContext, useState, ReactNode, useRef, useEffect} from 'react'
 import challenges from '../../challenges.json'
 
 interface Challenge {
@@ -18,7 +18,8 @@ interface ChallengesContextData{
     experienceToNextLevel: number;
     percentToNextLevel: number;
     completeChallenge: (xp)=>void;
-    chalengeRef: any;   
+    chalengeRef: any;
+    askForNotify: ()=>void;
 }
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
@@ -36,7 +37,17 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     const experienceToNextLevel = Math.pow((level+1)*4,2);
     const percentToNextLevel = Math.round((currentExperience*100)/experienceToNextLevel)
 
-    const chalengeRef = useRef();
+    const chalengeRef = useRef<HTMLDivElement>();
+    const [timesAskForNotify, setTimesAskForNotify] = useState(3)
+
+    function askForNotify(){
+        if(timesAskForNotify<=0 || !('Notification' in window)) return;
+
+        navigator.serviceWorker.register('sw.js');
+        Notification.requestPermission();
+        setTimesAskForNotify(timesAskForNotify-1);
+        console.log('dedindo para notificar: '+timesAskForNotify)
+    }
 
 
     function levelUp(exeed?:number) {
@@ -62,7 +73,20 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
 
     function startNewChallenge(){
         const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
-        setActiveChallenge(challenges[randomChallengeIndex]);
+        const challenge = challenges[randomChallengeIndex]
+        setActiveChallenge(challenge);
+
+        if(Notification.permission === 'granted'){
+            new Notification(`Novo desafio ${challenge.type == 'body'? '🦾':'👀' } valendo ${challenge.amount}`, {
+                body: `${challenge.description}`,
+                lang: 'pt-br',
+                icon: 'favicon.png',
+                vibrate: [100,100,300,200,100]
+            })
+        } else {
+            if (Notification.permission === 'denied' || timesAskForNotify<=0) return;
+            askForNotify();
+        }
         
         // scroll page to the unlocked challenge on smalls screens. "Hardcoding"
         // setTimeout(()=>document.getElementById("chalengeBoxElement").scrollIntoView(), 500)
@@ -88,6 +112,7 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
             challengesCompleted,
             activeChallenge,
             chalengeRef,
+            askForNotify,
             experienceToNextLevel, percentToNextLevel,
             startNewChallenge, completeChallenge, resetChallenge
         }}>
