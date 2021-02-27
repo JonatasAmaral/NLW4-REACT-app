@@ -1,4 +1,3 @@
-import { clear } from 'console';
 import { useState, useEffect, useContext } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
 import { CountdownContext } from '../contexts/CountdownContext';
@@ -16,16 +15,15 @@ export function Countdown(){
     useEffect(() =>{
         if (activeChallenge) return;
         resetCountdown();
-    }
-        ,[activeChallenge]
-    )
+        
+    }, [activeChallenge])
 
     const digitsMinutes = String(minutes).padStart(2, '0').split('');
     const digitsSeconds = String(seconds).padStart(2, '0').split('');
 
     return(
         <div>
-            <div className={styles.countdownContainer} onClick={resetCountdown}>
+            <div className={styles.countdownContainer}>
                 <div>
                     <span>{digitsMinutes[0] || 0}</span>
                     <span>{digitsMinutes[1] || 0}</span>

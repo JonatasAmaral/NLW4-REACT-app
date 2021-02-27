@@ -13,7 +13,7 @@ export function ChallengeBox(){
     // const chalengeRef = useRef();
 
     return(
-        <div className={styles.challengeBoxContainer} ref={chalengeRef}>
+        <div className={styles.challengeBoxContainer} id="chalengeBoxElement" ref={chalengeRef}>
 
             { activeChallenge? (
                 <div className={styles.challengeActive}>

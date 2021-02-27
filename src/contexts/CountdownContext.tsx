@@ -19,10 +19,9 @@ interface CountdownProviderProps {
     children: ReactNode
 }
 
-
 export function CountdownProvider ( {children}:CountdownProviderProps ) {
     
-    const initTime = 3 || 25*60;
+    const initTime = 5 || 25*60; // set temporary time to 5secs, for fast testing
     const [time, setTime] = useState(initTime);
     const [isActive, setIsActive] = useState(false);
     const [hasFinished, setHasFinished] = useState(false);
@@ -35,7 +34,6 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
     
     let timeoutTrack;
 
-    
     function startCountdown(){
         clearTimeout(timeoutTrack);
         setIsActive(true);
@@ -52,8 +50,6 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
 
     useEffect(()=>{
         if(isActive && time > 0){
-            // console.log(time)
-
             timeoutTrack = setTimeout(()=>{
                 setTime(time-1)
                 // setTime(oldState=>oldState-1)

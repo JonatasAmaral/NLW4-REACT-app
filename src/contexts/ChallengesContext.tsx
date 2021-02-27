@@ -46,9 +46,7 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
 
         Notification.requestPermission();
         setTimesAskForNotify(timesAskForNotify-1);
-        console.log('dedindo para notificar: '+timesAskForNotify)
     }
-
 
     function levelUp(exeed?:number) {
         setLevel(level + 1);
@@ -75,6 +73,12 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
         const challenge = challenges[randomChallengeIndex]
         setActiveChallenge(challenge);
+        
+        // scroll page to the unlocked challenge on smalls screens. "Hardcoding"
+        // setTimeout(()=>document.getElementById("chalengeBoxElement").scrollIntoView(), 500)
+        // TODO: scroll page to challenge by exporting a React useRef.
+        // Works nicelly, but VS Code acuse error: "possibly undefined"
+        setTimeout(()=>{ chalengeRef.current.scrollIntoView({ behavior: 'smooth' }) }, 500)
 
         new Audio('/notification.mp3').play();
 
@@ -89,12 +93,6 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
             if (Notification.permission === 'denied' || timesAskForNotify<=0) return;
             askForNotify();
         }
-        
-        // scroll page to the unlocked challenge on smalls screens. "Hardcoding"
-        // setTimeout(()=>document.getElementById("chalengeBoxElement").scrollIntoView(), 500)
-        // TODO: scroll page to challenge by exporting a React useRef.
-        // Works nicelly, but VS Code acuse error: "possibly undefined"
-        setTimeout(()=>{ chalengeRef.current.scrollIntoView({ behavior: 'smooth' }) }, 500)
     }
     function completeChallenge(xp){
         if (!activeChallenge) return;
@@ -106,7 +104,6 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         setActiveChallenge(null);
     }
     
-
     return (
         <ChallengesContext.Provider value={{
             level, levelUp,

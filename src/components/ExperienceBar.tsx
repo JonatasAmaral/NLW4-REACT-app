@@ -8,7 +8,6 @@ export function ExperienceBar(){
         experienceToNextLevel, percentToNextLevel
     } = useContext(ChallengesContext);
 
-    const [gotTarget, setGotTarget] = useState(false);
     const [barWidth, setBarWidth] = useState(0)
     const [expValueWidth, setExpValueWidth] = useState(0)
 
@@ -69,11 +68,7 @@ export function ExperienceBar(){
                     </span>
                 </div>
                 <span>{experienceToNextLevel} xp</span>
-            
             </header>
-            
-            
         </div>
-        
     )
 }
