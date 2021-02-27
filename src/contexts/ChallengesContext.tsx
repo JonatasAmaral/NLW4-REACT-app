@@ -40,10 +40,10 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
     const chalengeRef = useRef<HTMLDivElement>();
     const [timesAskForNotify, setTimesAskForNotify] = useState(3)
 
+
     function askForNotify(){
         if(timesAskForNotify<=0 || !('Notification' in window)) return;
 
-        navigator.serviceWorker.register('sw.js');
         Notification.requestPermission();
         setTimesAskForNotify(timesAskForNotify-1);
         console.log('dedindo para notificar: '+timesAskForNotify)
@@ -75,6 +75,8 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
         const challenge = challenges[randomChallengeIndex]
         setActiveChallenge(challenge);
+
+        new Audio('/notification.mp3').play();
 
         if(Notification.permission === 'granted'){
             new Notification(`Novo desafio ${challenge.type == 'body'? '🦾':'👀' } valendo ${challenge.amount}`, {
