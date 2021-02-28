@@ -63,10 +63,10 @@ export function ExperienceBar(){
                             setExpValueWidth(el.getBoundingClientRect().width)
                         }}
                     >
-                        {currentExperience} xp
+                        {`${currentExperience} xp`}
                     </span>
                 </div>
-                <span>{experienceToNextLevel} xp</span>
+                <span>{`${experienceToNextLevel} xp`}</span>
             </header>
         </div>
     )

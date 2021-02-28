@@ -24,6 +24,7 @@ export function Countdown(){
     return(
         <div>
             <div className={styles.countdownContainer} id="countdownContainer" ref={countdownRef}>
+                <span className="sr-only">00:</span> {/* mostar valor de 0 horas apenas para leitores de tela*/}
                 <div>
                     <span>{digitsMinutes[0] || 0}</span>
                     <span>{digitsMinutes[1] || 0}</span>

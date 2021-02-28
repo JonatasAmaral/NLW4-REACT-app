@@ -11,8 +11,7 @@ export function Profile(){
             <div className={styles.profileInfo} >
                 <strong>Jonatas Amaral</strong>
                 <p>
-                    {/* <img src="icons/level.svg" alt="icone de nivel do perfil"/> */}
-                    <span className="icon-">⬆</span>
+                    <span className="icon-" aria-hidden>⬆</span>
                     Level {level}
                 </p>
             </div>
