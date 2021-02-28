@@ -81,7 +81,14 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         // setTimeout(()=>document.getElementById("chalengeBoxElement").scrollIntoView(), 500)
         // TODO: scroll page to challenge by exporting a React useRef.
         // Works nicelly, but VS Code acuse error: "possibly undefined"
-        setTimeout(()=>{ chalengeRef.current.scrollIntoView({ behavior: 'smooth' }) }, 500)
+        setTimeout(()=>{
+            let position = chalengeRef.current.clientHeight>window.innerHeight? 'end':'center' as ScrollLogicalPosition
+            chalengeRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: position,
+                inline: 'center'
+            })
+        }, 500)
 
         new Audio('/notification.mp3').play();
 
@@ -107,8 +114,19 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         gainExperience(xp);
     }
     function resetChallenge(){
-        setActiveChallenge(null);
-        setTimeout(()=>{ countdownRef.current.scrollIntoView({ behavior: 'smooth' }) }, 200)
+
+        let resetTimer = setTimeout(()=>{
+            setActiveChallenge(null);
+
+            let position = countdownRef.current.parentElement.clientHeight>window.innerHeight? 'end':'center' as ScrollLogicalPosition
+
+            countdownRef.current.parentElement.scrollIntoView({
+                behavior: 'smooth',
+                block: position,
+                inline: 'center'
+            })
+            clearTimeout(resetTimer);
+        }, 200)
     }
     
     return (
