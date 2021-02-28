@@ -53,8 +53,16 @@
     font-size: 1.25rem;
 
     transition: background 0.2s;
+    overflow: hidden;
+    position: relative;
+    --border-thicknes: 3px;
+
 }
-.countdownButton:not([disabled]):hover {
+
+.countdownButton:focus, .countdownButton:focus-within {
+    outline-offset: 1px;
+}
+.countdownButton:hover {
     background: var(--blue-dark);
 }
 
@@ -66,16 +74,41 @@
     background: var(--white);
     color: var(--title);
 }
+.countdownButtonActive::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: var(--border-thicknes);
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+}
+.countdownButtonActive .dynamicTimerBar {
+    position: absolute;
+    bottom: 0;
+    height: var(--border-thicknes);
+    left: 0;
+    background: var(--green);
+    border-radius: 0 var(--border-thicknes) var(--border-thicknes) 0;
+    z-index: 1;
+}
 .countdownButtonActive:hover {
     background: var(--red);
     color: var(--white);
 }
 .countdownButton[disabled] {
-
     background: var(--white);
-    border-bottom: 5px solid var(--green);
     color: var(--title);
     cursor: not-allowed;
+}
+.countdownButton[disabled]::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: var(--border-thicknes);
+    left: 0;
+    right: 0;
+    background: var(--green);
 }
 .countdownButton[disabled] span {
     color: var(--green);

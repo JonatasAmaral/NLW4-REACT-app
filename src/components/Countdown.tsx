@@ -7,7 +7,8 @@ export function Countdown(){
 
     const { minutes, seconds,
         isActive, hasFinished,
-        startCountdown, resetCountdown
+        startCountdown, resetCountdown,
+        timePassedPercentage
     } = useContext(CountdownContext)
 
     const {activeChallenge, countdownRef} = useContext(ChallengesContext)
@@ -23,7 +24,11 @@ export function Countdown(){
 
     return(
         <div>
-            <div className={styles.countdownContainer} id="countdownContainer" ref={countdownRef}>
+            <div 
+                className={styles.countdownContainer} 
+                id="countdownContainer" 
+                ref={countdownRef}
+            >
                 <span className="sr-only">00:</span> {/* mostar valor de 0 horas apenas para leitores de tela*/}
                 <div>
                     <span>{digitsMinutes[0] || 0}</span>
@@ -56,6 +61,10 @@ export function Countdown(){
                     >   
                         {/* ☓ ✗ ✖ */}
                         Abandonar o ciclo <span className="icon-">✖</span>
+
+                        <div className={styles.dynamicTimerBar}
+                            style={{width: `${timePassedPercentage()*100}%`}}
+                        ></div>
                     </button>
                 ):(
                     <button 

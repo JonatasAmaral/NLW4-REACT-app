@@ -11,6 +11,8 @@ interface CountdownContextData{
 
     startCountdown: ()=>void;
     resetCountdown: ()=>void;
+
+    timePassedPercentage: ()=>number;
 }
 
 export const CountdownContext = createContext({} as CountdownContextData);
@@ -28,6 +30,7 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
 
     const {startNewChallenge, askForNotify} = useContext(ChallengesContext)
 
+    const timePassedPercentage = ()=>(initTime-time)/initTime
 
     const minutes = Math.floor(time/60);
     const seconds = time - minutes*60; // time % 60
@@ -66,7 +69,8 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
         <CountdownContext.Provider value={{
             minutes, seconds,
             isActive, hasFinished,
-            startCountdown, resetCountdown
+            startCountdown, resetCountdown,
+            timePassedPercentage
         }}>
             {children}
         </CountdownContext.Provider>
