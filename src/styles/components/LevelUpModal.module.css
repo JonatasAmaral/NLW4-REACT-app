@@ -1,0 +1,99 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* display: none */
+}
+.overlay::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.LevelUpModalContainer {
+    background-color: var(--white);
+
+    border-radius: 5px;
+    box-shadow: 0 0 2px rgba(0, 0, 60px, 0.05);
+    padding: 2rem 3rem;
+    position: relative;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+}
+.LevelUpModalContainer button {
+    border: 0;
+    font-weight: 500;
+}
+.LevelUpModalContainer header {
+    font-size: 9rem;
+    font-weight: bold;
+    color: var(--blue);
+    text-shadow: 0 10px 16px rgb(89 101 224 / 30%);
+
+    background: url("/icons/levelup.svg") no-repeat center;
+    background-size: contain;
+}
+.LevelUpModalContainer strong {
+    font-size: 2.25rem;
+    color: var(--title);
+}
+.LevelUpModalContainer p {
+    margin-top: .25rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.shareButton {
+    padding: 1rem;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 2rem;
+
+
+    background-color: var(--brand-color, var(--blue));
+    color: #fff;
+}
+.shareButton:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.1));
+}
+.shareButton::first-letter {
+    text-transform: uppercase;
+}
+.shareButton [class*="icon-"]{
+    --brand-color: ; /* remove brand color, to use text color*/
+    margin-left: .5rem;
+    vertical-align: bottom;
+}
+
+.closeModal {
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    background: none;
+    font-size: 1.5em;
+    padding: .25rem;
+    color: var(--text);
+    display: flex;
+}
+.closeModal:hover {
+    color: black;
+}
+.closeModal > * {
+    transition: 300ms;
+}
+
+.closeModal:hover > * {
+    transform: rotate(90deg);
+}
