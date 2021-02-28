@@ -1,5 +1,6 @@
 import {createContext, useState, ReactNode, useRef, useEffect} from 'react'
 import challenges from '../../challenges.json'
+import Cookies from 'js-cookie';
 
 interface Challenge {
     type: 'body' | 'eye';
@@ -29,9 +30,14 @@ interface ChallengesProviderProps {
 }
 
 export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
-    const [level, setLevel] = useState(1);
-    const [currentExperience, setCurrentExperience] = useState(0);
-    const [challengesCompleted, setChallengesCompleted] = useState(0);
+
+    const cookie_level = Number(Cookies.get('level'));
+    const cookie_currentExperience = Number(Cookies.get('currentExperience'));
+    const cookie_challengesCompleted = Number(Cookies.get('challengesCompleted'));
+
+    const [level, setLevel] = useState( cookie_level || 1 );
+    const [currentExperience, setCurrentExperience] = useState( cookie_currentExperience || 0 );
+    const [challengesCompleted, setChallengesCompleted] = useState( cookie_challengesCompleted || 0 );
 
     const [activeChallenge, setActiveChallenge] = useState(null);
 
@@ -43,6 +49,19 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
 
     const [timesAskForNotify, setTimesAskForNotify] = useState(3)
 
+    useEffect(() => {
+
+        // salvar cookie com API Javascript
+       /*  document.cookie = `level=${level}`
+        document.cookie = `currentExperience=${currentExperience}`
+        document.cookie = `challengesCompleted=${challengesCompleted}` */
+
+        // salvar cookie com biblioteca js-cookie
+        Cookies.set('level', String(level));
+        Cookies.set('currentExperience', String(currentExperience));
+        Cookies.set('challengesCompleted', String(challengesCompleted));
+
+    }, [level, currentExperience, challengesCompleted])
 
     function askForNotify(){
         if(timesAskForNotify<=0 || !('Notification' in window)) return;
