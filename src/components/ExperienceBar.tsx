@@ -11,6 +11,7 @@ export function ExperienceBar(){
     const [barWidth, setBarWidth] = useState(0)
     const [expValueWidth, setExpValueWidth] = useState(0)
 
+    let expBarWidthCalc = (currentExperience/barWidth)*100;
 
     function expAnchorPos(){
 
@@ -29,15 +30,15 @@ export function ExperienceBar(){
         }
         else return '-50%'
     }
-    function expPercentage(offset?:number){
+    function expPercentage(offset){
         
-        let expBarWidthCalc = (currentExperience*barWidth)/100;
+        expBarWidthCalc = offset;      
 
         // tamanhos harcoded do global.css (pois o ponto tem tamanho fixo)
-        if (expBarWidthCalc < 3) return `${offset || 0}px`
-        if ((barWidth-expBarWidthCalc) < 3) return `calc(100% - ${offset || 0}px)`
+        if (expBarWidthCalc < 3) return (offset+3)+'px'
+        if ((barWidth-expBarWidthCalc) < 3) return (offset-3)+'px'
 
-        return `${percentToNextLevel}%`
+        return offset+'%'
     }
 
     return(
@@ -50,12 +51,12 @@ export function ExperienceBar(){
                         setBarWidth(el.getBoundingClientRect().width)
                     }}
                 >
-                    <div className={styles.currentExperienceBar} style={{width: expPercentage()}}/>
-                    <span className={styles.currentExperiencePoint} style={{left: expPercentage()}}></span>
+                    <div className={styles.currentExperienceBar} style={{width: `${percentToNextLevel}%`}}/>
+                    <span className={styles.currentExperiencePoint} style={{left: `${percentToNextLevel}%`}}></span>
                     <span
                         className={styles.currentExperienceValue}
                         style={{
-                            left: expPercentage(),
+                            left: `${percentToNextLevel}%`,
                             transform: `translateX(${expAnchorPos()})`
                         }}
                         ref={el => {
