@@ -25,19 +25,18 @@ interface ChallengesContextData{
 }
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
-interface ChallengesProviderProps {
-    children: ReactNode
+export interface ChallengesProviderProps {
+    children: ReactNode;
+    level: number;
+    currentExperience: number;
+    challengesCompleted: number;
 }
 
-export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
+export function ChallengesProvider ( {children, ...userCookies}:ChallengesProviderProps ) {
 
-    const cookie_level = Number(Cookies.get('level'));
-    const cookie_currentExperience = Number(Cookies.get('currentExperience'));
-    const cookie_challengesCompleted = Number(Cookies.get('challengesCompleted'));
-
-    const [level, setLevel] = useState( cookie_level || 1 );
-    const [currentExperience, setCurrentExperience] = useState( cookie_currentExperience || 0 );
-    const [challengesCompleted, setChallengesCompleted] = useState( cookie_challengesCompleted || 0 );
+    const [level, setLevel] = useState( userCookies.level || 1 );
+    const [currentExperience, setCurrentExperience] = useState( userCookies.currentExperience || 0 );
+    const [challengesCompleted, setChallengesCompleted] = useState( userCookies.challengesCompleted || 0 );
 
     const [activeChallenge, setActiveChallenge] = useState(null);
 
@@ -96,10 +95,6 @@ export function ChallengesProvider ( {children}:ChallengesProviderProps ) {
         const challenge = challenges[randomChallengeIndex]
         setActiveChallenge(challenge);
         
-        // scroll page to the unlocked challenge on smalls screens. "Hardcoding"
-        // setTimeout(()=>document.getElementById("chalengeBoxElement").scrollIntoView(), 500)
-        // TODO: scroll page to challenge by exporting a React useRef.
-        // Works nicelly, but VS Code acuse error: "possibly undefined"
         setTimeout(()=>{
             let position = chalengeRef.current.clientHeight>window.innerHeight? 'end':'center' as ScrollLogicalPosition
             chalengeRef.current.scrollIntoView({
