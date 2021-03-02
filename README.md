@@ -1,8 +1,8 @@
 <p align="center">
  <a href="#what">What is it</a> •
  <a href="#technologies">Technologies</a> • 
- <a href="#usage">Using</a> • 
- <a href="#usage">Build one yourself</a> • 
+ <a href="#using">Using</a> • 
+ <a href="#building">Build one yourself</a> • 
  <a href="#author">Author</a>
 </p>
 
@@ -74,14 +74,14 @@ You can check it running over [here](https://nlw-4-react-app.vercel.app/)
 ![App banner](./public/assets/XP-bar.gif)
 
 
-<h2 id="use" > Using it </h2>
+<h2 id="using" > Using it </h2>
 
 The most recent state of this project is automatically build to [vercel](vercel.com):
 
 You can run it at: [https://nlw-4-react-app.vercel.app/](https://nlw-4-react-app.vercel.app/)
 
 
-<h2 id="technologies"> 🛠 Applyed Technologies </h2>
+<h2 id="technologies"> Applyed Technologies </h2>
 
 ### This project has the following dependencies
 
@@ -118,7 +118,7 @@ development
 0. User info synchronization across devices, over social media login. (At frist, temporarily, by manual user action, for scheduled devide formating and correlated situations)
 0. User created goals
 
-<h2 id="build" > Make yourself one of these </h2>
+<h2 id="building" > Make yourself one of these </h2>
 
 ### On Gitpod
 
@@ -159,7 +159,7 @@ http://localhost:3000
 
 <img style="border-radius: 50%; border: 2px solid #ccc; float: left; margin: 1rem 2rem .5rem 1rem" src="https://github.com/JonatasAmaral.png" width="100px;" alt=""/>
 
-## Jonatas Amaral
+### Jonatas Amaral
 
 [![Linkedin Badge](https://img.shields.io/badge/JonatasAmaral-blue?style=flat-round&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/jonatasamaral/)](https://www.linkedin.com/in/anabrtorres/)
 [![Gmail Badge](https://img.shields.io/badge/-jonatasamaral-171717?style=flat-round&logo=artstation&link=https://www.artstation.com/jonatasamaral)](https://www.artstation.com/jonatasamaral)
