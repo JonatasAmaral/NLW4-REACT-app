@@ -32,6 +32,7 @@ export interface ChallengesProviderProps {
     level: number;
     currentExperience: number;
     challengesCompleted: number;
+    workTime?: number;
 }
 
 export function ChallengesProvider ( {children, ...userCookies}:ChallengesProviderProps ) {

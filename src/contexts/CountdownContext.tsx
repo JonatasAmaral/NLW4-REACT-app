@@ -1,8 +1,10 @@
 import {createContext, useState, ReactNode, useContext, useEffect, useRef} from 'react'
 import { ChallengesContext } from './ChallengesContext';
+import Cookies from 'js-cookie';
 
 
 interface CountdownContextData{
+    workTime: number
     minutes: number;
     seconds: number;
 
@@ -13,24 +15,27 @@ interface CountdownContextData{
     resetCountdown: ()=>void;
 
     timePassedPercentage: ()=>number;
+    changeWorkTime: (arg?: number)=> void;
 }
 
 export const CountdownContext = createContext({} as CountdownContextData);
 
 interface CountdownProviderProps {
-    children: ReactNode
+    children: ReactNode,
+    timerCookie: number
 }
 
-export function CountdownProvider ( {children}:CountdownProviderProps ) {
+export function CountdownProvider ( {children, timerCookie}:CountdownProviderProps ) {
     
-    const initTime = 5 || 25*60; // set temporary time to 5secs, for fast testing
-    const [time, setTime] = useState(initTime);
+    const initTime = 25*60; // default worktime: 25 minutes
+    const [workTime,setWorkTime] = useState(timerCookie ?? initTime);
+    const [time, setTime] = useState(workTime);
     const [isActive, setIsActive] = useState(false);
     const [hasFinished, setHasFinished] = useState(false);
 
     const {startNewChallenge, askForNotify} = useContext(ChallengesContext)
 
-    const timePassedPercentage = ()=>(initTime-time)/initTime
+    const timePassedPercentage = ()=>(workTime-time)/workTime
 
     const minutes = Math.floor(time/60);
     const seconds = time - minutes*60; // time % 60
@@ -47,8 +52,7 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
         setIsActive(false);
         setHasFinished(false);
 
-        setTime(initTime); // todo: animate time back
-
+        setTime(workTime); // todo: animate time back
     }
 
     useEffect(()=>{
@@ -64,13 +68,27 @@ export function CountdownProvider ( {children}:CountdownProviderProps ) {
         }
     }, [isActive, time])
 
+    function changeWorkTime(newValue?){
+
+        setWorkTime((!!newValue)? newValue : initTime);
+    }
+
+    useEffect(()=>{
+        if(workTime<0){setWorkTime(0); return}
+        if(workTime>((99*60)+59)){ setWorkTime( ((99*60)+59) ); return}
+
+        Cookies.set('workTime', String(workTime))
+        resetCountdown();
+    },[workTime])
 
     return(
         <CountdownContext.Provider value={{
+            workTime,
             minutes, seconds,
             isActive, hasFinished,
             startCountdown, resetCountdown,
-            timePassedPercentage
+            timePassedPercentage,
+            changeWorkTime
         }}>
             {children}
         </CountdownContext.Provider>

@@ -5,10 +5,12 @@ import styles from '../styles/components/Countdown.module.css';
 
 export function Countdown(){
 
-    const { minutes, seconds,
+    const {
+        minutes, seconds,
         isActive, hasFinished,
         startCountdown, resetCountdown,
-        timePassedPercentage
+        timePassedPercentage,
+        changeWorkTime
     } = useContext(CountdownContext)
 
     const {activeChallenge, countdownRef} = useContext(ChallengesContext)
@@ -28,6 +30,20 @@ export function Countdown(){
                 className={styles.countdownContainer} 
                 id="countdownContainer" 
                 ref={countdownRef}
+                onDoubleClickCapture={(e)=>{
+                    e.preventDefault();
+                    let newMinutes:any = prompt("Quantos minutos?");
+                    let newSeconds:any = prompt("Quantos segundos?");
+
+                    if ( !(newMinutes || newSeconds) ){ 
+                        changeWorkTime(); return;
+                    }
+
+                    newMinutes = Math.abs(Math.floor(Number( newMinutes )));
+                    newSeconds = Math.floor(Number( newSeconds ));
+
+                    changeWorkTime( (newMinutes*60) + newSeconds );
+                }}
             >
                 <span className="sr-only">00:</span> {/* mostar valor de 0 horas apenas para leitores de tela*/}
                 <div>

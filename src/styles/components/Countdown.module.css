@@ -3,7 +3,8 @@
     align-items: center;
     font-family: Rajdhani;
     font-weight: 600;
-    color: var(--title)
+    color: var(--title);
+    user-select: none;
 }
 .countdownContainer > div {
     flex: 1;
@@ -71,6 +72,7 @@
     font-size: 1.25em;
 }
 .countdownButtonActive {
+    --transitionTime: 0;
     background: var(--white);
     color: var(--title);
 }
@@ -84,13 +86,16 @@
     background: rgba(0, 0, 0, 0.15);
 }
 .countdownButtonActive .dynamicTimerBar {
+    --transitionTime: attr(data-time);
     position: absolute;
     bottom: 0;
     height: var(--border-thicknes);
     left: 0;
+    width:0;
     background: var(--green);
     border-radius: 0 var(--border-thicknes) var(--border-thicknes) 0;
     z-index: 1;
+    transition: width var(--transitionTime) linear;
 }
 .countdownButtonActive:hover {
     background: var(--red);

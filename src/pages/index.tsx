@@ -31,7 +31,7 @@ export default function Home(props:ChallengesProviderProps) {
         
         <ExperienceBar />
         
-        <CountdownProvider>
+        <CountdownProvider timerCookie={props.workTime} >
           <section>
             <div className={styles.mainAppContainer}>
               <Profile />
@@ -49,14 +49,18 @@ export default function Home(props:ChallengesProviderProps) {
 
 export const getServerSideProps:GetServerSideProps = async (ctx)=>{
   
-  const {level,
-      currentExperience,
-      challengesCompleted} = ctx.req.cookies
+  const {
+    level,
+    currentExperience,
+    challengesCompleted,
+    workTime
+  } = ctx.req.cookies
 
   const user = {
     level: Number(level),
     currentExperience: Number(currentExperience),
-    challengesCompleted: Number(challengesCompleted)
+    challengesCompleted: Number(challengesCompleted),
+    workTime: Number(workTime)
   }
   
   return {
